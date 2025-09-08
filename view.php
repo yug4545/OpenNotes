@@ -68,14 +68,14 @@ mysqli_stmt_close($stmt);
                 </a>
                 <div class="post-share">
                     <span>Share:</span>
-                    <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode($url_path . 'view.php?id=' . $id); ?>&text=<?php echo urlencode($title); ?>" target="_blank" class="share-link twitter">
-                        <i class="fab fa-twitter"></i>
+                    <a href="https://api.whatsapp.com/send?text=<?php echo urlencode($title . ' - ' . $url_path . 'view.php?id=' . $id); ?>" target="_blank" class="share-link whatsapp">
+                        <i class="fab fa-whatsapp"></i>
                     </a>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode($url_path . 'view.php?id=' . $id); ?>" target="_blank" class="share-link facebook">
-                        <i class="fab fa-facebook"></i>
+                        <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="https://www.linkedin.com/shareArticle?url=<?php echo urlencode($url_path . 'view.php?id=' . $id); ?>&title=<?php echo urlencode($title); ?>" target="_blank" class="share-link linkedin">
-                        <i class="fab fa-linkedin"></i>
+                    <a href="https://t.me/share/url?url=<?php echo urlencode($url_path . 'view.php?id=' . $id); ?>&text=<?php echo urlencode($title); ?>" target="_blank" class="share-link telegram">
+                        <i class="fab fa-telegram"></i>
                     </a>
                 </div>
             </div>
@@ -399,22 +399,25 @@ body::after {
     color: white;
     font-size: 1rem;
     transition: transform 0.2s;
+    text-decoration: none;
 }
 
 .share-link:hover {
     transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
 }
 
-.share-link.twitter {
-    background: #1da1f2;
+.share-link.whatsapp {
+    background: #25D366;
 }
 
 .share-link.facebook {
     background: #4267B2;
 }
 
-.share-link.linkedin {
-    background: #0077b5;
+.share-link.telegram {
+    background: #0088cc;
 }
 
 @media (max-width: 768px) {
