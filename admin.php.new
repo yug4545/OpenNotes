@@ -1,0 +1,75 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once 'connect.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Initialize variables
+$numrows = 0;
+$rowsperpage = defined('PAGINATION') ? PAGINATION : 10;
+$result = null;
+
+// Get total post count
+$count_sql = "SELECT COUNT(*) FROM posts";
+$count_result = mysqli_query($dbcon, $count_sql);
+if ($count_result) {
+    $r = mysqli_fetch_row($count_result);
+    $numrows = $r[0];
+}
+
+// Pagination logic
+$totalpages = ceil($numrows / $rowsperpage);
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max(1, min($page, $totalpages));
+$offset = ($page - 1) * $rowsperpage;
+
+// Get posts for current page
+$sql = "SELECT * FROM posts ORDER BY id DESC LIMIT $offset, $rowsperpage";
+$result = mysqli_query($dbcon, $sql);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="neon-admin-container">
+    <div class="admin-glass-panel">
+        <div class="admin-header">
+            <div class="admin-title-wrapper">
+                <h1 class="admin-title">Quest Command Center</h1>
+                <div class="admin-subtitle">Manage Your Adventure Portfolio</div>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="user-info">
+                    <div class="username">
+                        <i class="fas fa-user me-2"></i>
+                        <?php echo htmlspecialchars($_SESSION['username']); ?>
+                    </div>
+                    <div class="user-role">
+                        <i class="fas fa-crown me-1"></i>
+                        Administrator
+                    </div>
+                </div>
+                <a href="logout.php" class="logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+
+        [Rest of your existing admin.php code...]

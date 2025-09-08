@@ -1,3 +1,12 @@
 <?php
-define('SITE_ROOT', ''); // If installed on a sub-folder, replace the empty constant with the folder's name
-define('PAGINATION', 10); // Pagination results per page
+$servername = "localhost";
+$username   = "root";
+$password   = ""; 
+$dbname     = "newblog"; 
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
